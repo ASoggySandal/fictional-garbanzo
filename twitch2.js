@@ -3,7 +3,8 @@ const origFetch = window.fetch;
 window.fetch = (url, init, ...args) => {
 	if (typeof url === "string") {
 		if (url.includes("/access_token")) {
-			url = url.replace("player_type=site", "player_type=embed");
+			url = url.replace("player_type=site", "player_type=mobile");
+			url = url.replace("platform=web", "platform=android");
 		} else if (
 			url.includes("/gql") &&
 			init &&
@@ -11,7 +12,8 @@ window.fetch = (url, init, ...args) => {
 			init.body.includes("PlaybackAccessToken")
 		) {
 			const newBody = JSON.parse(init.body);
-			newBody.variables.playerType = "embed";
+			newBody.variables.playerType = "mobile";
+			newBody.variables.platform = "android";
 			init.body = JSON.stringify(newBody);
 		}
 	}
